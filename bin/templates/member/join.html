@@ -3,15 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	input {
+		width: 60%;
+		margin: 10px 0;
+	}
+	form{
+		margin: 0 auto;
+		width: 60%;
+	}
+</style>
+<script type="text/javascript">
+	function back(){
+		history.back();
+	}
+</script>
 </head>
 <body>
-회원가입
+<h1>회원가입</h1> <div class="backBtn" onclick="back()">뒤로가기</div>
 <form action="/join" method="post">
-<input name="name" type="text">
-<input name="city" type="text">
-<input name="street" type="text">
-<input name="zipcode" type="text">
-<button>submit</button>
+	<div style="display: flex;flex-direction: column;">
+		<label for="username">이름</label>
+		<input id="username" name="name" type="text">
+		<label for="city">도시</label>
+		<input id="city" name="city" type="text">
+		<label for="street">거리</label>
+		<input id="street" name="street" type="text">
+		<label for="zipcode">우편번호</label>
+		<input id="zipcode" name="zipcode" type="text">
+	</div>
+	<button>submit</button>
 </form>
 </body>
 </html>
