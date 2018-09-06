@@ -21,6 +21,9 @@
 	function moveToJoinPage(){
 		location.href = '/join';
 	}
+	function moveToMemberList(){
+		location.href = '/members'
+	}
 </script>
 </head>
 <body>
@@ -28,7 +31,7 @@
 		<h1 style="margin:10px;">메인 페이지야</h1>
 		<div class="wrapper2">
 			<h2 class="item1" onclick="moveToJoinPage()">회원 등록</h2>
-			<h2 class="item1">회원 조회</h2>
+			<h2 class="item1" onclick="moveToMemberList()">회원 조회</h2>
 		</div>
 	</div>
 </body>

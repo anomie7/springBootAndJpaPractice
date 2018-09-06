@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: local
+---
+spring:
+  profiles: local
+  datasource:
+    data: classpath:data-h2.sql
   jpa:
     hibernate:
       ddl-auto: create-drop

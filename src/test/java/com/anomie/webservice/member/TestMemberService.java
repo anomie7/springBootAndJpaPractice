@@ -38,7 +38,7 @@ public class TestMemberService {
 
 	@Test
 	public void testFindMembers() {
-		List<Member> memberList = memberService.findMembers();
+		List<MemberDto> memberList = memberService.findMembers();
 		assertThat(memberList.get(0).getId()).isEqualTo(member2.getId());
 	}
 
