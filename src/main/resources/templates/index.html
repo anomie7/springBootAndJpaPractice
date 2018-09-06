@@ -1,10 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+ <style>
+ 	body{
+	 	display: flex;
+		flex-direction: row;
+		justify-content: center;
+ 	}
+	.wrapper2 {
+		display: flex
+	}
+	.item1{
+		margin: 10px;
+	}
+</style>
+<script type="text/javascript">
+	function moveToJoinPage(){
+		location.href = '/join';
+	}
+</script>
 </head>
 <body>
-
+	<div class="wrapper">
+		<h1 style="margin:10px;">메인 페이지야</h1>
+		<div class="wrapper2">
+			<h2 class="item1" onclick="moveToJoinPage()">회원 등록</h2>
+			<h2 class="item1">회원 조회</h2>
+		</div>
+	</div>
 </body>
 </html>
