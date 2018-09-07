@@ -11,9 +11,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.anomie.webservice.commons.PageDTO;
+
 @RunWith(SpringRunner.class)
+@ActiveProfiles("test")
 @SpringBootTest
 public class TestMemberService {
 
@@ -26,6 +32,9 @@ public class TestMemberService {
 	private Member member;
 	private Member member2;
 	private Member member3;
+	private Member member4;
+	private Member member5;
+	
 	Address address;
 
 	@Before
@@ -34,10 +43,14 @@ public class TestMemberService {
 		member = Member.builder().name("민우").address(address).build();
 		member2 = Member.builder().name("도담").address(address).build();
 		member3 = Member.builder().name("민우").address(address).build();
-
+		member4 = Member.builder().name("현우").address(address).build();
+		member5 = Member.builder().name("강한").address(address).build();
+		
 		memberService.save(member2);
 		memberService.save(member);
 		memberService.save(member3);
+		memberService.save(member4);
+		memberService.save(member5);
 	}
 	
 	@After
@@ -65,5 +78,15 @@ public class TestMemberService {
 		for (Member member : testMember) {
 			assertThat(member.getAddress()).isEqualTo(address);
 		}
+	}
+	
+	@Test
+	public void testPaging() {
+		int page = 2;
+		Pageable pageable = new PageRequest(page, 2);
+		PageDTO res = memberService.findMembers(pageable);
+		assertEquals("총 페이지 수가 일치하지 않습니다.", 3, res.getTotalPage());
+		assertEquals("현재 페이지의 값이 일치하지 않습니다.", 2, res.getCurrentPage());
+		assertEquals("불러온 컨첸츠의 총 개수가 일치하지 않습니다.",  1, res.getNumberOfElements());
 	}
 }

@@ -19,17 +19,5 @@ spring:
       enabled: true
 logging:
   level:
-    org.springframwork.web.client: trace
-    org.hibernate.type: trace
----
-spring:
-  profiles: test
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-  output:
-    ansi:
-      enabled: always
-logging:
-  level:
+    org.springframwork.web.client: info
     org.hibernate.type: trace
