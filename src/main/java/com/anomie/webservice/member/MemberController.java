@@ -1,5 +1,7 @@
 package com.anomie.webservice.member;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +42,12 @@ public class MemberController {
 		model.addAttribute("memberList", ms.getContent());
 		return "member/list";
 	}
+	
+	@GetMapping(path="/members")
+	public String getMemberList(Model model) {
+		List<MemberDto> ms = memberService.findMembers();
+		model.addAttribute("memberList", ms);
+		return "member/list";
+}
+	
 }
