@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,10 @@ public class TestMemberService {
 
 	@Autowired
 	MemberService memberService;
-
+	
+	@Autowired
+	MemberRepository memberRepository;
+	
 	private Member member;
 	private Member member2;
 	private Member member3;
@@ -35,7 +39,12 @@ public class TestMemberService {
 		memberService.save(member);
 		memberService.save(member3);
 	}
-
+	
+	@After
+	public void removeAllObj() {
+		memberRepository.deleteAll();
+	}
+	
 	@Test
 	public void testFindMembers() {
 		List<MemberDto> memberList = memberService.findMembers();

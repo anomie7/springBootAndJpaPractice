@@ -6,8 +6,10 @@
 </head>
 <body>
 <h1>멤버 조회</h1>
-{{#memberList}}
-{{id}} {{name}} {{city}} {{street}} {{zipcode}}
-{{/memberList}}
+	<div>
+		{{#memberList}}
+		<div>{{id}} {{name}} {{city}} {{street}} {{zipcode}}</div>
+		{{/memberList}}
+	</div>
 </body>
 </html>
