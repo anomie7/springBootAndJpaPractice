@@ -49,6 +49,7 @@ public class PageDTO {
 	}
 	
 	public void setPageNumbers() {
+		if(this.displayLastPage > this.totalPage) this.displayLastPage = this.totalPage;
 		List<Integer> tmp = new ArrayList<>();
 		for(int i = this.displayFirstPage; i <= this.displayLastPage; i++) {
 			tmp.add(i);

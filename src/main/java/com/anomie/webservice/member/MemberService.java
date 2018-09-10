@@ -55,8 +55,8 @@ public class MemberService {
 		}
 		
 		PageDTO res = PageDTO.builder().content(result)
-										.currentPage(ms.getNumber())
-										.numberOfElements(ms.getNumberOfElements())
+										.currentPage(ms.getNumber() + 1)
+										.numberOfElements(pageable.getPageSize())
 										.totalPage(ms.getTotalPages())
 										.isFirst(ms.isFirst())
 										.isLast(ms.isLast())

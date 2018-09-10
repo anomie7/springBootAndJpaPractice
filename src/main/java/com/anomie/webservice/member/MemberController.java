@@ -37,9 +37,11 @@ public class MemberController {
 	@GetMapping(path="/members/{page}/{size}")
 	public String getMemberList(Model model,@PathVariable int page,@PathVariable int size) {
 		PageRequest pageable = new PageRequest(page, size);
-		PageDTO ms = memberService.findMembers(pageable);
-		model.addAttribute("PageDTO", ms);
-		model.addAttribute("memberList", ms.getContent());
+		PageDTO pageDto = memberService.findMembers(pageable);
+		pageDto.setDisplayPageNumbers();
+		pageDto.setPageNumbers();
+		model.addAttribute("PageDTO", pageDto);
+		model.addAttribute("memberList", pageDto.getContent());
 		return "member/list";
 	}
 	
