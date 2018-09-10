@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/resources/js/vue/vue.js"></script>
+</head>
+<body>
+	<h1>뷰를 이용한 회원 리스트dd</h1>
+	<div id="simple">
+		<h2>{{message}}</h2>
+	</div>
+	<script type="text/javascript">
+		var model = {
+			message : '스프링 부트로 이거 하느라 피똥쌌다 진짜'
+		};
+		var simple = new Vue({
+			el : '#simple',
+			data : model
+		})
+	</script>
+</body>
+</html>

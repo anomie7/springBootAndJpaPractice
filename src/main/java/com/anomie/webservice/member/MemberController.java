@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anomie.webservice.commons.PageDTO;
 
@@ -50,6 +51,20 @@ public class MemberController {
 		List<MemberDto> ms = memberService.findMembers();
 		model.addAttribute("memberList", ms);
 		return "member/list";
-}
+	}
 	
+	@GetMapping(path="/api/members/{page}/{size}")
+	@ResponseBody
+	public PageDTO getJsonMemberList(@PathVariable int page,@PathVariable int size) {
+		PageRequest pageable = new PageRequest(page, size);
+		PageDTO pageDto = memberService.findMembers(pageable);
+		pageDto.setDisplayPageNumbers();
+		pageDto.setPageNumbers();
+		return pageDto;
+	}
+	
+	@GetMapping(path="/vue/members")
+	public String getVuejsList(Model model) {
+		return "vue_list";
+	}
 }

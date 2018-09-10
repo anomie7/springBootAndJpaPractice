@@ -52,6 +52,10 @@
 			location.href = '/members/' + lastPage + '/' + '{{PageDTO.numberOfElements}}'
 		}
 	}
+	
+	function goHome(){
+		location.href = '/';
+	}
 </script>
 <style type="text/css">
 	.currentPage{
@@ -60,7 +64,7 @@
 </style>
 </head>
 <body>
-<h1>멤버 조회</h1>
+<h1>멤버 조회</h1> <div class="backBtn" onclick="goHome()" style="color: red; padding-bottom: 20px">홈으로</div>
 	<div>
 		{{#memberList}}
 		<div>{{name}} {{city}} {{street}} {{zipcode}}</div>
