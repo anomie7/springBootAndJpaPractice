@@ -86,7 +86,7 @@ public class TestMemberService {
 		Pageable pageable = new PageRequest(page, 2);
 		PageDTO res = memberService.findMembers(pageable);
 		assertEquals("총 페이지 수가 일치하지 않습니다.", 3, res.getTotalPage());
-		assertEquals("현재 페이지의 값이 일치하지 않습니다.", 2, res.getCurrentPage());
-		assertEquals("불러온 컨첸츠의 총 개수가 일치하지 않습니다.",  1, res.getNumberOfElements());
+		assertEquals("현재 페이지의 값이 일치하지 않습니다.", 3, res.getCurrentPage());
+		assertEquals("불러온 컨첸츠의 총 개수가 일치하지 않습니다.", 2, res.getNumberOfElements());
 	}
 }
