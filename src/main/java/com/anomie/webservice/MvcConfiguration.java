@@ -17,7 +17,6 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter{
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".html");
-        resolver.setViewNames(new String[] {"vue_*"});
         return resolver;
     }
 

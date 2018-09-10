@@ -4,19 +4,76 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/resources/js/vue/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style type="text/css">
+	.currentPage{
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
-	<h1>뷰를 이용한 회원 리스트dd</h1>
 	<div id="simple">
 		<h2>{{message}}</h2>
+		<div v-for="content in pageDTO.content">
+			{{content.id}}
+			{{content.name}}
+			{{content.city}}
+			{{content.street}}
+			{{content.zipcode}}
+		</div>
+		<div style="display: flex; flex-direction: row">
+			<div style="margin-right: 10px" @click="getPrevious"><</div>
+			<div style="margin-right: 5px" :class="{currentPage: pageNum == pageDTO.currentPage}" v-for="pageNum in pageDTO.page_NUMBERS" @click="getContent">
+				{{pageNum}}
+			</div>
+			<div style="margin-left: 10px" @click="getNext">></div>
+		</div>
 	</div>
 	<script type="text/javascript">
-		var model = {
-			message : '스프링 부트로 이거 하느라 피똥쌌다 진짜'
-		};
-		var simple = new Vue({
+		var vm = new Vue({
 			el : '#simple',
-			data : model
+			data : {
+				message : 'Vue.js를 이용한 회원 리스트',
+				pageDTO : []
+			},
+			created() {
+				let $this = this
+				axios('/api/members/0/2')
+				.then(function(res){
+					console.log(res.data.content)
+					$this.pageDTO = res.data
+				});
+			},
+			methods: {
+				getContent(e){
+					let $this = this
+					let currentPage = e.target.innerText - 1
+					this.getRequest($this, currentPage);
+				},
+				getPrevious(){
+					let hasPrivious = this.pageDTO.hasPrivious;
+					let $this = this
+					let previousPage = this.pageDTO.currentPage - 2
+					if(hasPrivious){
+						this.getRequest($this, previousPage);
+					}
+				},
+				getNext(){
+					let hasNext = this.pageDTO.hasNext;
+					let $this = this
+					let nextPage = this.pageDTO.currentPage;
+					if(hasNext){
+						this.getRequest($this, nextPage);
+					}
+				},
+				getRequest($this, page){
+					let url = `/api/members/${page}/2`
+					axios(url)
+					.then(function(res){
+						$this.pageDTO = res.data
+					});
+				}
+			}
 		})
 	</script>
 </body>
