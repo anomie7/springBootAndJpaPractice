@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -42,7 +44,7 @@ public class TestMemberService {
 		address = Address.builder().city("대구").stress("교학로 38").zipcode("854-9").build();
 		member = Member.builder().name("민우").address(address).build();
 		member2 = Member.builder().name("도담").address(address).build();
-		member3 = Member.builder().name("민우").address(address).build();
+		member3 = Member.builder().name("민우").address(Address.builder().city("대구").stress("대학로").zipcode("853-9").build()).build();
 		member4 = Member.builder().name("현우").address(address).build();
 		member5 = Member.builder().name("강한").address(address).build();
 		
@@ -88,5 +90,23 @@ public class TestMemberService {
 		assertEquals("총 페이지 수가 일치하지 않습니다.", 3, res.getTotalPage());
 		assertEquals("현재 페이지의 값이 일치하지 않습니다.", 3, res.getCurrentPage());
 		assertEquals("불러온 컨첸츠의 총 개수가 일치하지 않습니다.", 2, res.getNumberOfElements());
+	}
+	
+	@Test 
+	public void testFindMembersByNameAndAddress() {
+		int page = 0;
+		Pageable pageable = new PageRequest(page, 2, new Sort(Direction.DESC, "id"));
+		String userName = "민우";
+		Address searchAddress = Address.builder().city("대구").stress("").build();
+		PageDTO pageDTO = memberService.findMembersByNameAndAddress(pageable, userName, searchAddress);
+		
+		assertEquals(true, pageDTO.getContent() != null);
+		
+		List<MemberDto> ms = (List<MemberDto>) pageDTO.getContent();
+		
+		for (MemberDto member : ms) {
+			assertThat(member.getName()).isEqualTo("민우");
+			assertThat(member.getCity()).isEqualTo("대구");
+		}
 	}
 }

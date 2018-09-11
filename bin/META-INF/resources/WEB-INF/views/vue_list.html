@@ -14,6 +14,7 @@
 <body>
 	<div id="simple">
 		<h2>{{message}}</h2>
+			<input id="nameSearch" name="userName" v-model="searchUserName" placeholder="유저 검색"> <button id="userSearchBtn" @click="searchMembers">검색</button>
 		<div v-for="content in pageDTO.content">
 			{{content.id}}
 			{{content.name}}
@@ -34,7 +35,8 @@
 			el : '#simple',
 			data : {
 				message : 'Vue.js를 이용한 회원 리스트',
-				pageDTO : []
+				pageDTO : [],
+				searchUserName: ""
 			},
 			created() {
 				let $this = this
@@ -72,6 +74,9 @@
 					.then(function(res){
 						$this.pageDTO = res.data
 					});
+				},
+				searchMembers(){
+					console.log(this.searchUserName);
 				}
 			}
 		})
