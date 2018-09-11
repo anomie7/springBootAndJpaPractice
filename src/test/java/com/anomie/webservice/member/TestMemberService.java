@@ -96,9 +96,8 @@ public class TestMemberService {
 	public void testFindMembersByNameAndAddress() {
 		int page = 0;
 		Pageable pageable = new PageRequest(page, 2, new Sort(Direction.DESC, "id"));
-		String userName = "민우";
-		Address searchAddress = Address.builder().city("대구").stress("").build();
-		PageDTO pageDTO = memberService.findMembersByNameAndAddress(pageable, userName, searchAddress);
+		MemberDto memberDto = MemberDto.builder().name("민우").city("대구").street("").build();
+		PageDTO pageDTO = memberService.findMembersByNameAndAddress(pageable, memberDto);
 		
 		assertEquals(true, pageDTO.getContent() != null);
 		

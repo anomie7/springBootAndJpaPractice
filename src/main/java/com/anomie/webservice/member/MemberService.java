@@ -81,9 +81,9 @@ public class MemberService {
 		return memberRepository.findByAddress(address);
 	}
 	
-	@Transactional
-	public PageDTO findMembersByNameAndAddress(Pageable pageable, String userName, Address searchAddress) {
-		Predicate builder = MemberPredicate.memberSearch(userName, searchAddress);
+	@Transactional(readOnly=true)
+	public PageDTO findMembersByNameAndAddress(Pageable pageable, MemberDto memberDto) {
+		Predicate builder = MemberPredicate.memberSearch(memberDto);
 		Page<Member> ms = memberRepository.findAll(builder, pageable);
 		List<MemberDto> result = new ArrayList<>();
 		

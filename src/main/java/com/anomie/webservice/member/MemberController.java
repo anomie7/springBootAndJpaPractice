@@ -6,6 +6,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,9 +57,9 @@ public class MemberController {
 	
 	@GetMapping(path="/api/members/{page}/{size}")
 	@ResponseBody
-	public PageDTO getJsonMemberList(@PathVariable int page,@PathVariable int size) {
-		PageRequest pageable = new PageRequest(page, size);
-		PageDTO pageDto = memberService.findMembers(pageable);
+	public PageDTO getJsonMemberList(@PathVariable int page,@PathVariable int size, MemberDto memberDto) {
+		PageRequest pageable = new PageRequest(page, size, new Sort(Direction.DESC, "id"));
+		PageDTO pageDto = memberService.findMembersByNameAndAddress(pageable, memberDto);
 		pageDto.setDisplayPageNumbers();
 		pageDto.setPageNumbers();
 		return pageDto;
