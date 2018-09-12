@@ -3,11 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/vue/vue.js"></script>
 <script type="text/javascript">
 	var currentPage = '{{{PageDTO.currentPage}}}';
 	
 	window.onload = function(){
 		load();
+		
+		Vue.component('home-btn', {
+			template: '<div class="backBtn" @click="goHome" style="color: red; padding-bottom: 20px">홈으로</div>',
+			methods:{
+				goHome(){
+					location.href = '/';
+				}
+			}
+		})
+		
+		new Vue({
+			el: '#app',
+			data: {
+				msg: ''
+			},
+			methods: {
+				getPageContent(num){
+					this.msg = "뭐하냐"
+					location.href = '/members/' + (num-1) + '/' + '{{PageDTO.numberOfElements}}'
+				},
+				getNextPageContent(){
+					this.msg = "다음"
+					let hasNext = {{PageDTO.hasNext}}
+					if(hasNext){
+						location.href = '/members/' + (currentPage) + '/' + '{{PageDTO.numberOfElements}}'
+					}
+				},
+				getPreviousPageContent(){
+					let hasPrivious = {{PageDTO.hasPrivious}}
+					if(hasPrivious){
+						location.href = '/members/' + (currentPage - 2) + '/' + '{{PageDTO.numberOfElements}}'
+					}
+				},
+				goToFirstPage(){
+					let isFirst = {{PageDTO.isFirst}}
+					if(!isFirst){
+						location.href = '/members/0/{{PageDTO.numberOfElements}}'
+					}
+				},
+				goToLastPage(){
+					let isLast = {{PageDTO.isLast}}
+					if(!isLast){
+						let lastPage = {{PageDTO.totalPage}} - 1;
+						location.href = '/members/' + lastPage + '/' + '{{PageDTO.numberOfElements}}'
+					}
+				}
+			}
+		})
 	};
 	
 	function load(){
@@ -19,43 +68,6 @@
 		const pageNumbers = [...document.querySelectorAll('.page-number')].filter(i => i.textContent == currentPage);
 		return pageNumbers;
 	}
-	
-	function getPageContent(num){
-		location.href = '/members/' + (num-1) + '/' + '{{PageDTO.numberOfElements}}'
-	}
-	
-	function getNextPageContent(){
-		let hasNext = {{PageDTO.hasNext}}
-		if(hasNext){
-			location.href = '/members/' + (currentPage) + '/' + '{{PageDTO.numberOfElements}}'
-		}
-	}
-	
-	function getPreviousPageContent(){
-		let hasPrivious = {{PageDTO.hasPrivious}}
-		if(hasPrivious){
-			location.href = '/members/' + (currentPage - 2) + '/' + '{{PageDTO.numberOfElements}}'
-		}
-	}
-	
-	function goToFirstPage(){
-		let isFirst = {{PageDTO.isFirst}}
-		if(!isFirst){
-			location.href = '/members/0/{{PageDTO.numberOfElements}}'
-		}
-	}
-	
-	function goToLastPage(){
-		let isLast = {{PageDTO.isLast}}
-		if(!isLast){
-			let lastPage = {{PageDTO.totalPage}} - 1;
-			location.href = '/members/' + lastPage + '/' + '{{PageDTO.numberOfElements}}'
-		}
-	}
-	
-	function goHome(){
-		location.href = '/';
-	}
 </script>
 <style type="text/css">
 	.currentPage{
@@ -64,19 +76,22 @@
 </style>
 </head>
 <body>
-<h1>멤버 조회</h1> <div class="backBtn" onclick="goHome()" style="color: red; padding-bottom: 20px">홈으로</div>
-	<div>
+<h1>멤버 조회</h1> 
+
+	<div id="app">
+		<div v-text="msg"></div>
+		<home-btn></home-btn>
 		{{#memberList}}
 		<div>{{name}} {{city}} {{street}} {{zipcode}}</div>
 		{{/memberList}}
 		<div class="page-numbers" style="display: flex; flex-direction: row;">
-			<div onclick="goToFirstPage()">처음으로</div>
-			<div class="previousBtn" onclick="getPreviousPageContent()" style="margin-right: 10px;" ><</div>
+			<div @click="goToFirstPage">처음으로</div>
+			<div class="previousBtn" @click="getPreviousPageContent" style="margin-right: 10px;" ><</div>
 			{{#PageDTO.PAGE_NUMBERS}}
-				<div class="page-number" style="margin-right: 5px" onclick="getPageContent({{.}})">{{.}}</div>
+				<div class="page-number" style="margin-right: 5px" @click="getPageContent({{.}})">{{.}}</div>
 			{{/PageDTO.PAGE_NUMBERS}}
-			<div class="nextBtn" onclick="getNextPageContent()" style="margin-left: 10px">></div>
-			<div onclick="goToLastPage()">마지막으로</div>
+			<div class="nextBtn" @click="getNextPageContent" style="margin-left: 10px">></div>
+			<div @click="goToLastPage">마지막으로</div>
 		</div>
 	</div>
 </body>
