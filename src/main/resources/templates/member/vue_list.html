@@ -3,31 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/resources/js/vue/vue.js"></script>
+<script src="/js/vue/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <style type="text/css">
 	.currentPage{
 		font-weight: bold;
 	}
+	.list-item{
+		margin-right: 5px
+	}
 </style>
 </head>
 <body>
 	<div id="simple">
-		<h2>{{message}}</h2>
+		<h2 v-text="message"></h2>
 			<input id="nameSearch" name="userName" v-model="searchUserName" placeholder="유저 검색"> 
 			<input id="citySearch" name="city" v-model="searchCity" placeholder="도시 검색"> 
 			<button id="userSearchBtn" @click="searchMembers">검색</button>
-		<div v-for="content in pageDTO.content">
-			{{content.id}}
-			{{content.name}}
-			{{content.city}}
-			{{content.street}}
-			{{content.zipcode}}
+		<div v-for="content in pageDTO.content" style="display: flex; flex-direction: row">
+			<div class="list-item" v-text="content.id"></div>
+			<div class="list-item" v-text="content.name"></div>
+			<div class="list-item" v-text="content.city"></div>
+			<div class="list-item" v-text="content.street"></div>
+			<div class="list-item" v-text="content.zipcode"></div>
 		</div>
 		<div style="display: flex; flex-direction: row">
 			<div style="margin-right: 10px" @click="getPrevious"><</div>
-			<div style="margin-right: 5px" :class="{currentPage: pageNum == pageDTO.currentPage}" v-for="pageNum in pageDTO.page_NUMBERS" @click="getContent">
-				{{pageNum}}
+			<div style="margin-right: 5px" v-text="pageNum" :class="{currentPage: pageNum == pageDTO.currentPage}" v-for="pageNum in pageDTO.page_NUMBERS" @click="getContent">
+				
 			</div>
 			<div style="margin-left: 10px" @click="getNext">></div>
 		</div>

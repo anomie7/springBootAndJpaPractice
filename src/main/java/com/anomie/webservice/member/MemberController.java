@@ -67,6 +67,6 @@ public class MemberController {
 	
 	@GetMapping(path="/vue/members")
 	public String getVuejsList(Model model) {
-		return "vue_list";
+		return "member/vue_list";
 	}
 }
