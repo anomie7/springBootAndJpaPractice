@@ -77,12 +77,11 @@
 </head>
 <body>
 <h1>멤버 조회</h1> 
-
 	<div id="app">
 		<div v-text="msg"></div>
 		<home-btn></home-btn>
 		{{#memberList}}
-		<div>{{name}} {{city}} {{street}} {{zipcode}}</div>
+			<div>{{name}} {{city}} {{street}} {{zipcode}}</div>
 		{{/memberList}}
 		<div class="page-numbers" style="display: flex; flex-direction: row;">
 			<div @click="goToFirstPage">처음으로</div>

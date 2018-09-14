@@ -30,6 +30,36 @@ springBoot {
     mainClass = "com.anomie.webservice.Application"
 }
 
+def queryDslOutput = file("src-gen/main/java")
+ 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'src/main/generated'
+        }
+    }
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+    file(new File(projectDir, "/src/main/generated")).deleteDir()
+    file(new File(projectDir, "/src/main/generated")).mkdirs()
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.compileOnly
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.querydsl.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = file('src/main/generated')
+}
+
+compileJava {
+    dependsOn generateQueryDSL
+}
+
+clean.doLast {
+    file(new File(projectDir, "/src/main/generated")).deleteDir()
+}
+
 dependencies {
 	def querydslVersion = "4.1.4"
 
@@ -44,37 +74,5 @@ dependencies {
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
 }
-
-def queryDslOutput = file("src-gen/main/java")
- 
-sourceSets {
-    main {
-        java {
-            srcDir "src-gen/main/java"
-        }
-    }
-}
- 
-task generateQueryDSL(type: JavaCompile, group: 'build') {
-    doFirst {
-        if (!queryDslOutput.exists()) {
-            logger.info("Creating `$queryDslOutput` directory")
- 
-            if (!queryDslOutput.mkdirs()) {
-                throw new InvalidUserDataException("Unable to create `$queryDslOutput` directory")
-            }
-        }
-    }
- 
-    source = sourceSets.main.java
-    classpath = configurations.compile
-    options.compilerArgs = [
-            "-proc:only",
-            "-processor",
-            "com.querydsl.apt.jpa.JPAAnnotationProcessor"
-    ]
-    destinationDir = queryDslOutput
-}
- 
-compileTestJava.dependsOn(generateQueryDSL)

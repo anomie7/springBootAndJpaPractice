@@ -27,8 +27,7 @@ public class TestMemberController {
 		
 	@Test
 	public void testGoToCreatePage() throws Exception {
-		mvc.perform(get("/join")).andDo(print())
-		.andExpect(status().isOk());
+		
 	}
 
 }
