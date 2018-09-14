@@ -3,12 +3,16 @@ package com.anomie.webservice.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.annotations.Join;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -30,8 +34,11 @@ public class Category {
 	@JoinColumn(name="PARENT_ID")
 	private Category parent;
 	
-	@OneToMany(mappedBy="parent")
+	@OneToMany(mappedBy="parent", cascade= CascadeType.PERSIST)
 	private List<Category> child = new ArrayList<>();
+	
+	@ManyToMany(mappedBy="categories", cascade= CascadeType.ALL)
+	private List<Item> items = new ArrayList<>();
 	
 	@Builder
 	public Category(Long id, String name, Category parent) {
