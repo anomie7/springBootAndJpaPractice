@@ -4,6 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ItemRepository extends JpaRepository<Item, Long> {
-	public List<Item> findAllByOrderByIdDesc();
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+	public List<Category> findAllByParentIsNull();
 }

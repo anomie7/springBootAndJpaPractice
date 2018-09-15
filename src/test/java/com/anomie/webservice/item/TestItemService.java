@@ -2,6 +2,8 @@ package com.anomie.webservice.item;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -67,6 +69,12 @@ public class TestItemService {
 		assertEquals(notAddedCategoryMsg ,testAlbum.getCategories().get(1), albumChild2);
 		assertEquals(notAddedParentMsg, testAlbum.getCategories().get(0).getParent(), albumChild1.getParent());
 		assertEquals(notAddedParentMsg , testAlbum.getCategories().get(1).getParent(), albumChild2.getParent());
+	}
+	
+	@Test
+	public void testFindItems() {
+		List<Item> items = itemService.findItems();
+		assertEquals("정렬 조건이 틀렸습니다.", albumItem1.getId(), items.get(0).getId() );
 	}
 	
 	@Test
