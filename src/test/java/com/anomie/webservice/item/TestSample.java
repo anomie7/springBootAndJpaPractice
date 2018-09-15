@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class TestSample {
 	@Autowired
 	private TestEntityManager entityManager;
+	
 	Category parent;
 	Category actionMovie;
 	Category romanceMovie;
