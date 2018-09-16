@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="/js/vue/vue.js"></script>
+{{>header}}
 <script type="text/javascript">
 	var currentPage = '{{{PageDTO.currentPage}}}';
 	
 	window.onload = function(){
 		load();
-		
-		Vue.component('home-btn', {
-			template: '<div class="backBtn" @click="goHome" style="color: red; padding-bottom: 20px">홈으로</div>',
-			methods:{
-				goHome(){
-					location.href = '/';
-				}
-			}
-		})
-		
 		new Vue({
 			el: '#app',
 			data: {

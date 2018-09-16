@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="/js/vue/vue.js"></script>
+{{>header}}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <style type="text/css">
 	.currentPage{
@@ -17,6 +12,7 @@
 <body>
 	<div id="simple">
 		<h2 v-text="message"></h2>
+		<home-btn></home-btn>
 			<input id="nameSearch" name="userName" v-model="searchUserName" placeholder="유저 검색"> 
 			<input id="citySearch" name="city" v-model="searchCity" placeholder="도시 검색"> 
 			<button id="userSearchBtn" @click="searchMembers">검색</button>

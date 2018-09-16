@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="/js/vue/vue.js"></script>
+{{>header}}
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
  <template id="book_template">
 	<div class="container template-container">
 		<label>저자: </label>
@@ -102,6 +96,7 @@
 <body>
 	<h1>아이템 생성 페이지</h1>
 	<div id="app">
+		<home-btn></home-btn>
 		<select name="kindOfItem" v-model="kindOfItem">
 			<option value="book">책 등록</option>
 			<option value="album">앨범 등록</option>
