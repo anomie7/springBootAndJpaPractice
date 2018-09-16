@@ -1,4 +1,4 @@
-package com.anomie.webservice.item;
+package com.anomie.webservice.category;
 
 import java.util.List;
 
@@ -13,6 +13,10 @@ public class CategoryService {
 	
 	public List<Category> findParentCateories() {
 		return categoryRepository.findAllByParentIsNull(); 
+	}
+	
+	public List<Category> findCategories(List<Long> ids){
+		return categoryRepository.findAll(ids);
 	}
 
 }

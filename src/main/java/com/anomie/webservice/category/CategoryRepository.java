@@ -1,4 +1,4 @@
-package com.anomie.webservice.item;
+package com.anomie.webservice.category;
 
 import java.util.List;
 

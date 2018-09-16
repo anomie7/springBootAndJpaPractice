@@ -3,8 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/vue/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+ <template id="book_template">
+	<div class="container template-container">
+		<label>저자: </label>
+ 		<input type="text" name="author" @input="inputAuthor"/>
+ 		<label>isbn: </label>
+ 		<input type="text" name="isbn" @input="inputIsbn"/>
+	</div>
+ </template>
+
+ <template id="album_template">
+	<div class="container template-container">
+		<label>아티스트: </label>
+ 		<input type="text" name="artist" @input="inputArtist"/>
+ 		<label>etc: </label>
+ 		<input type="text" name="etc" @input="inputEtc"/>
+	</div>
+ </template>
+
+ <template id="movie_template">
+	<div class="container template-container">
+		<label>감독: </label>
+ 		<input type="text" name="director" @input="inputDirector"/>
+ 		<label>배우: </label>
+ 		<input type="text" name="actor" @input="inputActor"/>
+	</div>
+ </template>
+ 
+ <script type="text/javascript">
+	Vue.component('book-component',{
+		data:function(){
+			return {author: null, isbn: null }
+		},
+		methods:{
+			inputAuthor(e){
+				console.log(e.target.value);
+				this.$emit('author', e.target.name, e.target.value);
+			},
+			inputIsbn(e){
+				console.log(e.target.value);
+				this.$emit('isbn', e.target.name, e.target.value);
+			}
+		},
+		template: '#book_template'		
+	})
+
+	Vue.component('album-component',{
+	data:function(){
+		return {artist: null, etc: null }
+	},
+	methods:{
+		inputArtist(e){
+			console.log(e.target.value);
+			this.$emit('artist', e.target.name, e.target.value);
+		},
+		inputEtc(e){
+			console.log(e.target.value);
+			this.$emit('etc', e.target.name, e.target.value);
+		}
+	},
+	template: '#album_template'		
+	})
+
+	Vue.component('movie-component',{
+	data:function(){
+		return {artist: null, etc: null }
+	},
+	methods:{
+		inputDirector(e){
+			console.log(e.target.value);
+			this.$emit('director', e.target.name, e.target.value);
+		},
+		inputActor(e){
+			console.log(e.target.value);
+			this.$emit('actor', e.target.name, e.target.value);
+		}
+	},
+	template: '#movie_template'		
+	})
+ </script>
+ <style type="text/css">
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.template-container{
+	margin: 0px;
+	width: 100%;
+}
+</style>
 </head>
 <body>
-<h1>아이템 생성 페이지</h1>
+	<h1>아이템 생성 페이지</h1>
+	<div id="app">
+		<select name="kindOfItem" v-model="kindOfItem">
+			<option value="book">책 등록</option>
+			<option value="album">앨범 등록</option>
+			<option value="movie">영화 등록</option>
+		</select>
+		<div class="container">
+			<label>이름: </label>
+			<input name="itemName" type="text" v-model="itemName">
+			<label>가격: </label>
+			<input name="price" type="number" v-model="price">
+			<label>재고: </label>
+			<input name="stockQuantity" type="number" v-model="stockQuantity">
+			<label>카테고리 선택: </label>
+			<select name="category_id" multiple="multiple" v-model="category_id">
+				<option selected="selected" value="null">카테고리 선택</option>
+				{{#categoryLs}}
+					<option disabled="disabled">{{name}}</option>
+					{{#child}}
+						<option value="{{id}}">▶{{name}}</option>
+					{{/child}}
+				{{/categoryLs}}
+			</select>
+			<book-component v-if="kindOfItem == 'book'" @author="updateVal" @isbn="updateVal"></book-component>
+			<album-component v-if="kindOfItem == 'album'" @artist="updateVal" @etc="updateVal"></album-component>
+			<movie-component v-if="kindOfItem == 'movie'" @director="updateVal" @actor="updateVal"></movie-component>
+			<button @click="submitItem">보내기</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				category_id: [],
+				itemName: '',
+				price: null,
+				stockQuantity: null,
+				kindOfItem: 'book',
+				author: null,
+				isbn: null,
+				artist: null,
+				etc: null,
+				director: null,
+				actor: null
+			},
+			methods: {
+				submitItem(){
+					axios({
+						method: 'post',
+						url: '/api/item/create',
+						data: {
+							category_id: this.category_id,
+							itemName: this.itemName,
+							price: this.price,
+							stockQuantity: this.stockQuantity,
+							author: this.author,
+							isbn: this.isbn,
+							artist: this.artist,
+							etc: this.etc,
+							director: this.director,
+							actor: this.actor,
+							kindOfItem: this.kindOfItem
+						},
+					 	headers: {
+					        'Content-Type': 'application/json'
+					    }
+					}).then(function(res){
+						console.log(res)
+					});
+				},
+				updateVal(name, value){
+					console.log(name);
+					switch (name) {
+						case 'author':
+							this.author = value;
+							break;
+						case 'isbn':
+							this.isbn = value;
+							break;
+						case 'artist':
+							this.artist = value;
+							break;
+						case 'etc':
+							this.etc = value;
+							break;
+						case 'director':
+							this.director = value;
+							break;
+						case 'actor':
+							this.actor = value;
+							break;
+						default:
+							break;
+					}
+				}
+			}
+		})
+	</script>
 </body>
 </html>

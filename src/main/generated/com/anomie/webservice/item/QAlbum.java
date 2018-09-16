@@ -24,7 +24,7 @@ public class QAlbum extends EntityPathBase<Album> {
     public final StringPath artist = createString("artist");
 
     //inherited
-    public final ListPath<Category, QCategory> categories = _super.categories;
+    public final ListPath<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory> categories = _super.categories;
 
     public final StringPath etc = createString("etc");
 

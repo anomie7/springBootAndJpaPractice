@@ -20,7 +20,7 @@ public class QItem extends EntityPathBase<Item> {
 
     public static final QItem item = new QItem("item");
 
-    public final ListPath<Category, QCategory> categories = this.<Category, QCategory>createList("categories", Category.class, QCategory.class, PathInits.DIRECT2);
+    public final ListPath<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory> categories = this.<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory>createList("categories", com.anomie.webservice.category.Category.class, com.anomie.webservice.category.QCategory.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

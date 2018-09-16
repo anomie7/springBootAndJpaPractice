@@ -24,7 +24,7 @@ public class QMovie extends EntityPathBase<Movie> {
     public final StringPath actor = createString("actor");
 
     //inherited
-    public final ListPath<Category, QCategory> categories = _super.categories;
+    public final ListPath<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory> categories = _super.categories;
 
     public final StringPath director = createString("director");
 

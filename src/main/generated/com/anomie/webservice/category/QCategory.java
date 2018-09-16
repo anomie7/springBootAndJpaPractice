@@ -1,4 +1,4 @@
-package com.anomie.webservice.item;
+package com.anomie.webservice.category;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QCategory extends EntityPathBase<Category> {
 
-    private static final long serialVersionUID = 946036166L;
+    private static final long serialVersionUID = -917490245L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
@@ -26,7 +26,7 @@ public class QCategory extends EntityPathBase<Category> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<Item, QItem> items = this.<Item, QItem>createList("items", Item.class, QItem.class, PathInits.DIRECT2);
+    public final ListPath<com.anomie.webservice.item.Item, com.anomie.webservice.item.QItem> items = this.<com.anomie.webservice.item.Item, com.anomie.webservice.item.QItem>createList("items", com.anomie.webservice.item.Item.class, com.anomie.webservice.item.QItem.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 

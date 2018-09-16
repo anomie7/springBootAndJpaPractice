@@ -2,6 +2,7 @@ package com.anomie.webservice.item;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -11,10 +12,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.anomie.webservice.category.Category;
+import com.anomie.webservice.category.CategoryService;
+import com.anomie.webservice.commons.ItemDTO;
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest @ActiveProfiles("test")
 public class TestItemService {
 	
 	@Autowired
@@ -22,6 +28,9 @@ public class TestItemService {
 	
 	@Autowired
 	ItemService itemService;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	private Category bookParent;
 	private Category bookChild1;
@@ -46,11 +55,12 @@ public class TestItemService {
 		albumParent = Category.builder().name("힙합").build();
 		albumChild1 = Category.builder().name("한국힙합").parent(albumParent).build();
 		albumChild2 = Category.builder().name("쇼미더머니").parent(albumParent).build();
+		
 		albumItem1.addCategory(albumChild1);
 		albumItem1.addCategory(albumChild2);
 		
-		itemService.save(bookItem1);
-		itemService.save(albumItem1);
+		itemRepository.save(bookItem1);
+		itemRepository.save(albumItem1);
 	}
 	
 	@Test @Transactional
@@ -71,6 +81,15 @@ public class TestItemService {
 		assertEquals(notAddedParentMsg , testAlbum.getCategories().get(1).getParent(), albumChild2.getParent());
 	}
 	
+	@Test @Transactional
+	public void testItemDtoSave() {
+		List<Long> ids = new ArrayList<>();
+		ids.add(bookChild1.getId());
+		ids.add(bookChild2.getId());
+		ItemDTO itemDTO = ItemDTO.builder().kindOfItem("movie").itemName("나홀로 집에").actor("맥컬리 컬킨").director("추석 특선").category_id(ids).price(2000).stockQuantity(100).build();
+		itemService.save(itemDTO);
+	}
+	
 	@Test
 	public void testFindItems() {
 		List<Item> items = itemService.findItems();
@@ -82,7 +101,7 @@ public class TestItemService {
 		Book testBook =	 Book.builder().id(bookItem1.getId()).author("헤밍웨이").isbn("1212-2").name("노인과 바다").price(12).stockQuantity(22).build();
 		testBook.addCategory(bookItem1.getCategories().get(0));
 		testBook.addCategory(bookItem1.getCategories().get(1));
-		itemService.save(testBook);
+		itemRepository.save(testBook);
 		assertEquals(testBook.getId(), bookItem1.getId());
 	}
 	

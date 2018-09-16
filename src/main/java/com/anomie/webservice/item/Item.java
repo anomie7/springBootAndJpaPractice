@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.anomie.webservice.category.Category;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
