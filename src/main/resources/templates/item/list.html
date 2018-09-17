@@ -5,14 +5,38 @@
 <div id="app">
 	<home-btn></home-btn>
 	<div>
-		{{#items}}
-			{{itemId}} {{itemName}} {{price}} {{stockQuantity}} 수정
-		{{/items}}
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>itemName</th>
+				<th>price</th>
+				<th>재고</th>
+				<th></th>
+			<tr>
+		</thead>
+		<tbody style="text-align: center;">
+			{{#items}}
+			<tr>
+				<td>{{itemId}}</td>
+				<td>{{itemName}} </td>
+				<td>{{price}}</td>
+				<td> {{stockQuantity}}</td>
+				<td><button @click="goUpdatePage('{{itemId}}')">수정</button></td>
+			</tr>
+			{{/items}}
+		</tbody>
+	</table>
 	</div>
 </div>
-	<script type="text/javascript">.
+	<script type="text/javascript">
 		new Vue({
 			el: '#app',
+			methods: {
+				goUpdatePage(itemId){
+					location.href = `/item/edit/${itemId}`;
+				}
+			}
 		})
 	</script>
 </body>
