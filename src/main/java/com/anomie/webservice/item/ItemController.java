@@ -34,4 +34,10 @@ public class ItemController {
 	public void createItem(@RequestBody ItemDTO item) {
 		itemService.save(item);
 	}
+	
+	@GetMapping(path="/item/list")
+	public String goItemListPage(Model model) {
+		model.addAttribute("items", itemService.findItems());
+		return "/item/list";
+	}
 }

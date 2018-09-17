@@ -92,8 +92,8 @@ public class TestItemService {
 	
 	@Test
 	public void testFindItems() {
-		List<Item> items = itemService.findItems();
-		assertEquals("정렬 조건이 틀렸습니다.", albumItem1.getId(), items.get(0).getId() );
+		List<ItemDTO> items = itemService.findItems();
+		assertEquals("정렬 조건이 틀렸습니다.", albumItem1.getId(), items.get(0).getItemId() );
 	}
 	
 	@Test
