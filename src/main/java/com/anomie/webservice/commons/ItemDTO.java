@@ -15,22 +15,28 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
-@Setter
+@Setter @Builder
 public class ItemDTO {
 	private Long itemId;
 	private String itemName;
 	private int price;
 	private int stockQuantity;
 	private List<Long> category_id;
-	private String author;
-	private String isbn;
-	private String artist;
-	private String etc;
-	private String director;
-	private String actor;
+	@Builder.Default
+	private String author = "";
+	@Builder.Default
+	private String isbn = "";
+	@Builder.Default
+	private String artist = "";
+	@Builder.Default
+	private String etc = "";
+	@Builder.Default
+	private String director = "";
+	@Builder.Default
+	private String actor = "";
 	private String kindOfItem;
 	
-	@Builder
+	
 	public ItemDTO(Long itemId, String itemName, int price, int stockQuantity, List<Long> category_id, String author,
 			String isbn, String artist, String etc, String director, String actor, String kindOfItem) {
 		super();
@@ -54,8 +60,9 @@ public class ItemDTO {
 			throw new NullPointerException();
 		}
 		
-		if(this.kindOfItem.equals("book")) {
+		if(this.kindOfItem.equals("B")) {
 			Book book = Book.builder()
+					.id(this.itemId)
 					.name(this.itemName)
 					.price(price)
 					.stockQuantity(stockQuantity)
@@ -63,16 +70,18 @@ public class ItemDTO {
 					.isbn(isbn).build();
 			;
 			return book;
-		}else if(this.kindOfItem.equals("album")) {
+		}else if(this.kindOfItem.equals("A")) {
 			Album album = Album.builder()
+					.id(this.itemId)
 					.name(this.itemName)
 					.price(price)
 					.stockQuantity(stockQuantity)
 					.artist(artist)
 					.etc(etc).build();
 			return album;
-		}else if(this.kindOfItem.equals("movie")) {
+		}else if(this.kindOfItem.equals("M")) {
 			Movie movie = Movie.builder()
+					.id(this.itemId)
 					.name(this.itemName)
 					.price(price)
 					.stockQuantity(stockQuantity)
@@ -100,7 +109,7 @@ public class ItemDTO {
 		ItemDTO result = null;
 		List<Long> categoryIds = book.getCategories().stream().map(m -> m.getId()).collect(Collectors.toList());
 		result = ItemDTO.builder().itemName(book.getName()).itemId(book.getId()).price(book.getPrice())
-				.stockQuantity(book.getStockQuantity()).author(book.getAuthor()).isbn(book.getIsbn()).category_id(categoryIds).build();
+				.stockQuantity(book.getStockQuantity()).author(book.getAuthor()).isbn(book.getIsbn()).category_id(categoryIds).kindOfItem(book.getDtype()).build();
 		return result;
 	}
 	
@@ -109,7 +118,7 @@ public class ItemDTO {
 		ItemDTO result = null;
 		List<Long> categoryIds = album.getCategories().stream().map(m -> m.getId()).collect(Collectors.toList());
 		result = ItemDTO.builder().itemName(album.getName()).itemId(album.getId()).price(album.getPrice())
-				.stockQuantity(album.getStockQuantity()).artist(album.getArtist()).etc(album.getEtc()).category_id(categoryIds).build();
+				.stockQuantity(album.getStockQuantity()).artist(album.getArtist()).etc(album.getEtc()).category_id(categoryIds).kindOfItem(album.getDtype()).build();
 		return result;
 	}
 	
@@ -118,7 +127,7 @@ public class ItemDTO {
 		ItemDTO result = null;
 		List<Long> categoryIds = movie.getCategories().stream().map(m -> m.getId()).collect(Collectors.toList());
 		result = ItemDTO.builder().itemName(movie.getName()).itemId(movie.getId()).price(movie.getPrice())
-				.stockQuantity(movie.getStockQuantity()).director(movie.getDirector()).actor(movie.getActor()).category_id(categoryIds).build();
+				.stockQuantity(movie.getStockQuantity()).director(movie.getDirector()).actor(movie.getActor()).category_id(categoryIds).kindOfItem(movie.getDtype()).build();
 		return result;
 	}
 }

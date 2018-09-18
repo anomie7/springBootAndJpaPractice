@@ -66,7 +66,6 @@ public class TestItemService {
 	@Test @Transactional
 	public void testFindByItemIdAndDtype() {
 		final String notAddedCategoryMsg = "추가한 카테고리가 일치하지 않습니다.";
-		final String notAddedParentMsg = "카테고리의 상속관계가 매핑되지 않았습니다.";
 		
 		//테스트 코드에서는 dtype 매핑하지 못함..그러나 프로덕션 코드에서는 매핑 잘됨...
 		ItemDTO testBook = itemService.findOne(bookItem1.getId(), "B");
@@ -83,7 +82,7 @@ public class TestItemService {
 		List<Long> ids = new ArrayList<>();
 		ids.add(bookChild1.getId());
 		ids.add(bookChild2.getId());
-		ItemDTO itemDTO = ItemDTO.builder().kindOfItem("movie").itemName("나홀로 집에").actor("맥컬리 컬킨").director("추석 특선").category_id(ids).price(2000).stockQuantity(100).build();
+		ItemDTO itemDTO = ItemDTO.builder().kindOfItem("M").itemName("나홀로 집에").actor("맥컬리 컬킨").director("추석 특선").category_id(ids).price(2000).stockQuantity(100).build();
 		itemService.save(itemDTO);
 	}
 	

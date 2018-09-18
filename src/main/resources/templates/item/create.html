@@ -3,43 +3,44 @@
  <template id="book_template">
 	<div class="container template-container">
 		<label>저자: </label>
- 		<input type="text" name="author" @input="inputAuthor"/>
+ 		<input type="text" name="author" @input="inputAuthor" {{#item.author}}	value="{{.}}"	{{/item.author}}{{^item.author}} value="" {{/item.author}} />
  		<label>isbn: </label>
- 		<input type="text" name="isbn" @input="inputIsbn"/>
+		<input type="text" name="isbn" @input="inputIsbn" {{#item.isbn}}value="{{.}}"{{/item.isbn}}{{^item.isbn}}value=""{{/item.isbn}}/>
 	</div>
  </template>
 
  <template id="album_template">
 	<div class="container template-container">
 		<label>아티스트: </label>
- 		<input type="text" name="artist" @input="inputArtist"/>
+ 		<input type="text" name="artist" @input="inputArtist" {{#item}} value="{{artist}}" {{/item}}/>
  		<label>etc: </label>
- 		<input type="text" name="etc" @input="inputEtc"/>
+ 		<input type="text" name="etc" @input="inputEtc"   {{#item.etc}}value="{{.}}" {{/item.etc}}  {{^item.etc}} value="" {{/item.etc}}/>
 	</div>
  </template>
 
  <template id="movie_template">
 	<div class="container template-container">
 		<label>감독: </label>
- 		<input type="text" name="director" @input="inputDirector"/>
+ 		<input type="text" name="director" @input="inputDirector" {{#item}} value="{{director}}"{{/item}}/>
  		<label>배우: </label>
- 		<input type="text" name="actor" @input="inputActor"/>
+ 		<input type="text" name="actor" @input="inputActor" {{#item}} value="{{actor}}"{{/item}}/>
 	</div>
  </template>
  
  <script type="text/javascript">
 	Vue.component('book-component',{
 		data:function(){
-			return {author: null, isbn: null }
+			return {author: null, 
+					 isbn: null }
 		},
 		methods:{
 			inputAuthor(e){
-				console.log(e.target.value);
-				this.$emit('author', e.target.name, e.target.value);
+				this.author = e.target.value;
+				this.$emit('author', e.target.name, this.author);
 			},
 			inputIsbn(e){
-				console.log(e.target.value);
-				this.$emit('isbn', e.target.name, e.target.value);
+				this.isbn = e.target.value;
+				this.$emit('isbn', e.target.name, this.isbn);
 			}
 		},
 		template: '#book_template'		
@@ -51,11 +52,9 @@
 	},
 	methods:{
 		inputArtist(e){
-			console.log(e.target.value);
 			this.$emit('artist', e.target.name, e.target.value);
 		},
 		inputEtc(e){
-			console.log(e.target.value);
 			this.$emit('etc', e.target.name, e.target.value);
 		}
 	},
@@ -68,11 +67,9 @@
 	},
 	methods:{
 		inputDirector(e){
-			console.log(e.target.value);
 			this.$emit('director', e.target.name, e.target.value);
 		},
 		inputActor(e){
-			console.log(e.target.value);
 			this.$emit('actor', e.target.name, e.target.value);
 		}
 	},
@@ -94,13 +91,18 @@
 </style>
 </head>
 <body>
-	<h1>아이템 생성 페이지</h1>
+	{{^item}}
+		<h1>아이템 생성 페이지</h1>
+	{{/item}}
+	{{#item}}
+		<h1>아이템 수정 페이지</h1>
+	{{/item}}
 	<div id="app">
 		<home-btn></home-btn>
-		<select name="kindOfItem" v-model="kindOfItem">
-			<option value="book">책 등록</option>
-			<option value="album">앨범 등록</option>
-			<option value="movie">영화 등록</option>
+		<select name="kindOfItem" v-model="kindOfItem" {{#item}}disabled=""{{/item}}>
+			<option value="B">책 등록</option>
+			<option value="A">앨범 등록</option>
+			<option value="M">영화 등록</option>
 		</select>
 		<div class="container">
 			<label>이름: </label>
@@ -119,27 +121,32 @@
 					{{/child}}
 				{{/categoryLs}}
 			</select>
-			<book-component v-if="kindOfItem == 'book'" @author="updateVal" @isbn="updateVal"></book-component>
-			<album-component v-if="kindOfItem == 'album'" @artist="updateVal" @etc="updateVal"></album-component>
-			<movie-component v-if="kindOfItem == 'movie'" @director="updateVal" @actor="updateVal"></movie-component>
-			<button @click="submitItem">보내기</button>
+			<book-component v-if="kindOfItem == 'B'" @author="updateVal" @isbn="updateVal"></book-component>
+			<album-component v-if="kindOfItem == 'A'" @artist="updateVal" @etc="updateVal"></album-component>
+			<movie-component v-if="kindOfItem == 'M'" @director="updateVal" @actor="updateVal"></movie-component>
+			{{^item}}
+				<button @click="submitItem">보내기</button>
+			{{/item}}
+			{{#item}}
+				<button @click="updateItem">수정</button>
+			{{/item}}
 		</div>
 	</div>
 	<script type="text/javascript">
 		new Vue({
 			el: '#app',
 			data: {
-				category_id: [],
-				itemName: '',
-				price: null,
-				stockQuantity: null,
-				kindOfItem: 'book',
-				author: null,
-				isbn: null,
-				artist: null,
-				etc: null,
-				director: null,
-				actor: null
+				category_id: [{{#item.category_id}}'{{.}}',{{/item.category_id}}],
+				itemName: {{#item.itemName}}'{{.}}'{{/item.itemName}}{{^item}}''{{/item}},
+				price: {{#item.price}}'{{.}}'{{/item.price}}{{^item}}''{{/item}},
+				stockQuantity: {{#item.stockQuantity}}'{{.}}'{{/item.stockQuantity}}{{^item}}''{{/item}},
+				kindOfItem: {{#item}}'{{kindOfItem}}'{{/item}}{{^item}}'B'{{/item}},
+				author: "{{#item.author}}{{.}}{{/item.author}}",
+				isbn: {{#item.isbn}}"{{.}}"{{/item.isbn}}{{^item.isbn}}""{{/item.isbn}},
+				artist: {{#item.artist}} "{{.}}" {{/item.artist}}{{^item.artist}} "" {{/item.artist}},
+				etc: {{#item.etc}}"{{.}}" {{/item.etc}} {{^item.etc}}""{{/item.etc}},
+				director: {{#item.director}}"{{.}}"{{/item.director}} {{^item.director}}""{{/item.director}},
+				actor: {{#item.actor}} "{{.}}"{{/item.actor}}{{^item.actor}} ""{{/item.actor}}
 			},
 			methods: {
 				submitItem(){
@@ -163,11 +170,37 @@
 					        'Content-Type': 'application/json'
 					    }
 					}).then(function(res){
+						location.reload();
+						console.log(res)
+					});
+				},
+				updateItem(){
+					axios({
+						method: 'post',
+						url: '/api/item/update',
+						data: {
+							{{#item.itemId}}itemId: {{.}}, {{/item.itemId}}
+							category_id: this.category_id,
+							itemName: this.itemName,
+							price: this.price,
+							stockQuantity: this.stockQuantity,
+							author: this.author,
+							isbn: this.isbn,
+							artist: this.artist,
+							etc: this.etc,
+							director: this.director,
+							actor: this.actor,
+							kindOfItem: this.kindOfItem
+						},
+					 	headers: {
+					        'Content-Type': 'application/json'
+					    }
+					}).then(function(res){
+						location.reload();
 						console.log(res)
 					});
 				},
 				updateVal(name, value){
-					console.log(name);
 					switch (name) {
 						case 'author':
 							this.author = value;

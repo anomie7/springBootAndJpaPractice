@@ -44,7 +44,14 @@ public class ItemController {
 	
 	@GetMapping(path="/item/edit/{itemId}")
 	public String goItemEditPage(@PathVariable Long itemId, String kindOfItem ,Model model) {
+		model.addAttribute("categoryLs",categoryService.findParentCateories());
 		model.addAttribute("item", itemService.findOne(itemId, kindOfItem));
 		return "/item/create";
+	}
+	
+	@PostMapping(path="/api/item/update")
+	@ResponseBody
+	public void updateItem(@RequestBody ItemDTO item) {
+		itemService.save(item);
 	}
 }
