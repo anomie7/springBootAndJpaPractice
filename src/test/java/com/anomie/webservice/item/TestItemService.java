@@ -64,21 +64,18 @@ public class TestItemService {
 	}
 	
 	@Test @Transactional
-	public void testSave() {
+	public void testFindByItemIdAndDtype() {
 		final String notAddedCategoryMsg = "추가한 카테고리가 일치하지 않습니다.";
 		final String notAddedParentMsg = "카테고리의 상속관계가 매핑되지 않았습니다.";
 		
-		Item testBook = itemService.findOne(bookItem1.getId());
-		assertEquals(notAddedCategoryMsg ,testBook.getCategories().get(0), bookChild1);
-		assertEquals(notAddedCategoryMsg ,testBook.getCategories().get(1), bookChild2);
-		assertEquals(notAddedParentMsg, testBook.getCategories().get(0).getParent(), bookChild1.getParent());
-		assertEquals(notAddedParentMsg , testBook.getCategories().get(1).getParent(), bookChild2.getParent());
+		//테스트 코드에서는 dtype 매핑하지 못함..그러나 프로덕션 코드에서는 매핑 잘됨...
+		ItemDTO testBook = itemService.findOne(bookItem1.getId(), "B");
+		ItemDTO testAlbum = itemService.findOne(albumItem1.getId(), "A");
 		
-		Item testAlbum = itemService.findOne(albumItem1.getId());
-		assertEquals(notAddedCategoryMsg ,testAlbum.getCategories().get(0), albumChild1);
-		assertEquals(notAddedCategoryMsg ,testAlbum.getCategories().get(1), albumChild2);
-		assertEquals(notAddedParentMsg, testAlbum.getCategories().get(0).getParent(), albumChild1.getParent());
-		assertEquals(notAddedParentMsg , testAlbum.getCategories().get(1).getParent(), albumChild2.getParent());
+		assertEquals(notAddedCategoryMsg ,testBook.getCategory_id().get(0), bookChild1.getId() );
+		assertEquals(notAddedCategoryMsg ,testBook.getCategory_id().get(1), bookChild2.getId() );
+		assertEquals(notAddedCategoryMsg ,testAlbum.getCategory_id().get(0), albumChild1.getId());
+		assertEquals(notAddedCategoryMsg ,testAlbum.getCategory_id().get(1), albumChild2.getId());
 	}
 	
 	@Test @Transactional

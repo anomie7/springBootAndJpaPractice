@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,5 +40,11 @@ public class ItemController {
 	public String goItemListPage(Model model) {
 		model.addAttribute("items", itemService.findItems());
 		return "/item/list";
+	}
+	
+	@GetMapping(path="/item/edit/{itemId}")
+	public String goItemEditPage(@PathVariable Long itemId, String kindOfItem ,Model model) {
+		model.addAttribute("item", itemService.findOne(itemId, kindOfItem));
+		return "/item/create";
 	}
 }

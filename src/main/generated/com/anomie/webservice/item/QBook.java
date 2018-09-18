@@ -27,6 +27,9 @@ public class QBook extends EntityPathBase<Book> {
     public final ListPath<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory> categories = _super.categories;
 
     //inherited
+    public final StringPath dtype = _super.dtype;
+
+    //inherited
     public final NumberPath<Long> id = _super.id;
 
     public final StringPath isbn = createString("isbn");

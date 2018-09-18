@@ -22,6 +22,8 @@ public class QItem extends EntityPathBase<Item> {
 
     public final ListPath<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory> categories = this.<com.anomie.webservice.category.Category, com.anomie.webservice.category.QCategory>createList("categories", com.anomie.webservice.category.Category.class, com.anomie.webservice.category.QCategory.class, PathInits.DIRECT2);
 
+    public final StringPath dtype = createString("dtype");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");

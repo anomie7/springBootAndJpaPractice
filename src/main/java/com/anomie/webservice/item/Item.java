@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @Getter
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn
+@DiscriminatorColumn(name="dtype")
 public abstract class Item {
 	@Id @GeneratedValue
 	@Column(name="ITEM_ID")
@@ -32,6 +32,8 @@ public abstract class Item {
 	private String name;
 	private int price;
 	private int stockQuantity;
+	@Column(insertable = false, updatable = false) 
+	private String dtype;
 	
 	@ManyToMany(cascade= CascadeType.PERSIST, fetch= FetchType.LAZY)
 	@JoinTable(name="CATEGORY_ITEM",

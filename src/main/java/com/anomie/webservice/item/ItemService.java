@@ -1,6 +1,7 @@
 package com.anomie.webservice.item;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,18 @@ public class ItemService {
 	}
 
 	@Transactional
-	public Item findOne(Long itemId) {
-		return itemRepository.findOne(itemId);
+	public ItemDTO findOne(Long itemId, String kindOfItem) {
+		Item item = itemRepository.findByIdAndDtype(itemId, kindOfItem);
+		return ItemDTO.toItemDTO(item);
 	}
 
 	@Transactional
 	public List<ItemDTO> findItems() {
 		List<Item> items = itemRepository.findAllByOrderByIdDesc();
-		List<ItemDTO> result = items.stream().map(m -> ItemDTO.builder().itemId(m.getId()).itemName(m.getName()).price(m.getPrice())
-				.stockQuantity(m.getStockQuantity()).build()).collect(Collectors.toList());
+		List<ItemDTO> result = items.stream()
+				.map(m -> ItemDTO.builder().itemId(m.getId()).itemName(m.getName()).price(m.getPrice())
+						.stockQuantity(m.getStockQuantity()).kindOfItem(m.getDtype()).build())
+				.collect(Collectors.toList());
 		return result;
 	}
 

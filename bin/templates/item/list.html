@@ -12,6 +12,7 @@
 				<th>itemName</th>
 				<th>price</th>
 				<th>재고</th>
+				<th>dtype</th>
 				<th></th>
 			<tr>
 		</thead>
@@ -22,7 +23,8 @@
 				<td>{{itemName}} </td>
 				<td>{{price}}</td>
 				<td> {{stockQuantity}}</td>
-				<td><button @click="goUpdatePage('{{itemId}}')">수정</button></td>
+				<td>{{kindOfItem}}</td>
+				<td><button @click="goUpdatePage('{{itemId}}', '{{kindOfItem}}')">수정</button></td>
 			</tr>
 			{{/items}}
 		</tbody>
@@ -32,9 +34,12 @@
 	<script type="text/javascript">
 		new Vue({
 			el: '#app',
+			data:{
+				
+			},		
 			methods: {
-				goUpdatePage(itemId){
-					location.href = `/item/edit/${itemId}`;
+				goUpdatePage(itemId, kindOfItem){
+					location.href = `/item/edit/${itemId}?kindOfItem=${kindOfItem}`;
 				}
 			}
 		})
