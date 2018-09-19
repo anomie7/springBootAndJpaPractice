@@ -28,6 +28,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath name = createString("name");
 
+    public final ListPath<com.anomie.webservice.order.Order, com.anomie.webservice.order.QOrder> orders = this.<com.anomie.webservice.order.Order, com.anomie.webservice.order.QOrder>createList("orders", com.anomie.webservice.order.Order.class, com.anomie.webservice.order.QOrder.class, PathInits.DIRECT2);
+
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);
     }
