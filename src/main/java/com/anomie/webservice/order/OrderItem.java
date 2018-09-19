@@ -1,6 +1,7 @@
 package com.anomie.webservice.order;
 
 import javax.jdo.annotations.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class OrderItem {
 	@JoinColumn(name="ORDER_ID")
 	private Order order;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="ITEM_ID")
 	private Item item;
 	
@@ -41,5 +42,9 @@ public class OrderItem {
 		this.item = item;
 		this.orderPrice = orderPrice;
 		this.count = count;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 }

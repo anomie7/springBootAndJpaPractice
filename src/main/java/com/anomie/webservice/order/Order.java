@@ -26,9 +26,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity 
 @Table(name="ORDERS")
-@NoArgsConstructor @Getter
+@NoArgsConstructor @Getter 
 public class Order {
 	@Id @GeneratedValue
 	@Column(name="ORDER_ID")
@@ -59,6 +59,18 @@ public class Order {
 		this.delivery = delivery;
 		this.orderItems = orderItems;
 		this.status = status;
+	}
+	
+	public void addOrderItem(OrderItem orderItem) {
+		if(this.orderItems == null){
+			this.orderItems = new ArrayList<>();
+		}
+		
+		if(!this.orderItems.isEmpty() && this.orderItems.contains(orderItem)) {
+			return;
+		}
+		this.orderItems.add(orderItem);
+		orderItem.setOrder(this);
 	}
 
 	@Override
