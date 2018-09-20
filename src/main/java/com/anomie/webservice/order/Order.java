@@ -69,6 +69,7 @@ public class Order {
 		if(!this.orderItems.isEmpty() && this.orderItems.contains(orderItem)) {
 			return;
 		}
+		orderItem.getItem().order(orderItem.getCount());
 		this.orderItems.add(orderItem);
 		orderItem.setOrder(this);
 	}

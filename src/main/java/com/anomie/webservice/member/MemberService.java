@@ -22,6 +22,10 @@ public class MemberService {
 		return memberRepository.save(member);
 	}
 	
+	public Member findOne(Long id) {
+		return memberRepository.findOne(id);
+	}
+	
 	@Transactional(readOnly=true)
 	public List<MemberDto> findMembers() {
 		List<Member> ms = memberRepository.findAll();

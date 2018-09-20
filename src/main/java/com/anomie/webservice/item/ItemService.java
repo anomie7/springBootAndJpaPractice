@@ -33,6 +33,10 @@ public class ItemService {
 		Item item = itemRepository.findByIdAndDtype(itemId, kindOfItem);
 		return ItemDTO.toItemDTO(item);
 	}
+	
+	public Item findOne(Long itemId) {
+		return itemRepository.findOne(itemId);
+	}
 
 	@Transactional
 	public List<ItemDTO> findItems() {

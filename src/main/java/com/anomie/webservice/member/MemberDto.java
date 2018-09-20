@@ -1,5 +1,9 @@
 package com.anomie.webservice.member;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.Builder;
@@ -11,6 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MemberDto {
+	@Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
 	private Long id;
 	@NotEmpty
 	private String name;

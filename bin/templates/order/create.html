@@ -1,0 +1,65 @@
+{{>header}}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style>
+ select, select, input {
+ 	margin: 5px 0;
+ }
+</style>
+</head>
+<body>
+<h1>주문하기 페이지</h1>
+<div id="app">
+	<home-btn></home-btn>
+	<div class="container">
+		<select name="member_id" v-model="memberId">
+			<option selected="selected" value="null">===멤버 선택===</option>
+			{{#members}}
+				<option value="{{id}}">{{name}}</option>
+			{{/members}}
+		</select>
+		<select name="item_id" v-model="itemId">
+			<option selected="selected">===아이템 선택===</option>
+			{{#items}}
+				<option value="{{itemId}}" >{{itemName}}</option>
+			{{/items}}
+		</select>
+		<label>판매가</label>
+		<input type="number" name="price" v-model="price">
+		<label>개수</label>
+		<input type="number" name="count" v-model="count">
+		<button @click="createOrder">주문 버튼</button>
+	</div>
+</div>
+<script type="text/javascript">
+	new Vue({
+		el: '#app',
+		data: {
+			memberId: '',
+			itemId: '',
+			price: '',
+			count: ''
+		},
+		methods: {
+			createOrder(){
+				axios({
+					method: 'post',
+					url: '/order/create',
+					data: {
+						memberId: this.memberId,
+						itemId: this.itemId,
+						price: this.price,
+						count: this.count
+					},
+				 	headers: {
+				        'Content-Type': 'application/json'
+				    }
+				}).then(function(res){
+					location.reload();
+					console.log(res)
+				});
+			}
+		}
+	})
+</script>
+</body>
+</html>
