@@ -124,4 +124,16 @@ public class Order {
 			return false;
 		return true;
 	}
+
+	public void setStatusComp() {
+		this.delivery.deliveryComp();
+	}
+
+	public void orderCancle() {
+		this.status = OrderStatus.CANCEL;
+		List<OrderItem> orderItems = this.orderItems;
+		for (OrderItem orderItem : orderItems) {
+			orderItem.cancle();
+		}
+	}
 }

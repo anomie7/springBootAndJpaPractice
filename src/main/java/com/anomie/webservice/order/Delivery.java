@@ -31,6 +31,10 @@ public class Delivery {
 	@Enumerated(EnumType.STRING)
 	private DeliveryStatus status;
 	
+	public void deliveryComp() {
+		this.status = DeliveryStatus.COMP;
+	}
+	
 	@Builder
 	public Delivery(Long id, Address address, Order order, DeliveryStatus status) {
 		super();

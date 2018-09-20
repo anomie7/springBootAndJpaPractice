@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.anomie.webservice.item.Book;
 import com.anomie.webservice.item.Item;
 
 import lombok.Builder;
@@ -46,5 +47,14 @@ public class OrderItem {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public void addItem(Item item) {
+		this.item = item;
+		item.order(this.count);
+	}
+
+	public void cancle() {
+		this.item.cancle(this.count);
 	}
 }

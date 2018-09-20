@@ -54,4 +54,12 @@ public abstract class Item {
 		}
 		this.categories.add(category);
 	}
+	
+	public void order(int count) {
+		this.stockQuantity = this.stockQuantity - count;
+	}
+
+	public void cancle(int count) {
+		this.stockQuantity = this.stockQuantity + count;
+	}
 }

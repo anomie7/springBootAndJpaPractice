@@ -16,7 +16,7 @@ public class OrderService {
 	}
 
 	@Transactional
-	public Order findItemOne(Long orderId) {
+	public Order findOrderOne(Long orderId) {
 		return orderRepository.findOne(orderId);
 	}
 }
