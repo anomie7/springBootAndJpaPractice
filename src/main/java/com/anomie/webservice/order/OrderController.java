@@ -41,4 +41,10 @@ public class OrderController {
 		order.addOrderItem(orderItem);
 		orderService.save(order);
 	}
+	
+	@GetMapping(path="/order/list")
+	public String goToOrderListPage(Model model) {
+		model.addAttribute("orders", orderService.findOrders());
+		return "order/list";
+	}
 }

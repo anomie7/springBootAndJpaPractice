@@ -1,0 +1,43 @@
+{{>header}}
+<style>
+tr td {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<h1>상품 목록</h1>
+<div id="app">
+	<home-btn></home-btn>
+	<table>
+		<tr>
+			<th>#</th>
+			<th>주문자 이름</th>
+			<th>대표 상품명</th>
+			<th>대표상품 가격</th>
+			<th>대표상품 주문갯수</th>
+			<th>주문 상태</th>
+			<th>주문 일시</th>
+			<th>주문 취소</th>
+		</tr>
+		{{#orders}}
+			<tr>
+				<td>{{orderId}}</td>
+				<td>{{memberName}}</td>
+				<td>{{itemName}}</td>
+				<td>{{orderPrice}}</td>
+				<td>{{orderCount}}</td>
+				<td>{{orderStatus}}</td>
+				<td>null</td>
+				<td><button>주문 취소</button></td>
+			</tr>
+		{{/orders}}
+	</table>
+</div>
+<script type="text/javascript">
+	new Vue({
+		el: '#app'
+	})
+</script>
+</body>
+</html>

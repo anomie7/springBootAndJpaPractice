@@ -8,6 +8,7 @@ import lombok.Setter;
 
 @NoArgsConstructor 
 @AllArgsConstructor
+@Builder
 @Setter @Getter
 public class OrderItemDTO {
 	private Long memberId;
