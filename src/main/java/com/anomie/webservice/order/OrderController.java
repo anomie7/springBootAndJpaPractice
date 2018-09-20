@@ -1,11 +1,17 @@
 package com.anomie.webservice.order;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.anomie.webservice.commons.OrderItemDTO;
 import com.anomie.webservice.item.Item;
@@ -46,5 +52,13 @@ public class OrderController {
 	public String goToOrderListPage(Model model) {
 		model.addAttribute("orders", orderService.findOrders());
 		return "order/list";
+	}
+	
+	@PutMapping(path="/order/cancle")
+	@ResponseStatus(value=HttpStatus.OK)
+	public void orderCancle(Long orderId) {
+		Order order = orderService.findOrderOne(orderId);
+		order.orderCancle();
+		orderService.save(order);
 	}
 }

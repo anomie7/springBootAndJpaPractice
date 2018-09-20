@@ -7,8 +7,9 @@ import com.anomie.webservice.order.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+@Builder @Setter
 @Getter @AllArgsConstructor
 public class OrderDTO {
 	private Long orderId;
