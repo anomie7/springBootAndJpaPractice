@@ -1,7 +1,5 @@
 package com.anomie.webservice.order;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 

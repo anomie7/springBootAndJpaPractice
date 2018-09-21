@@ -16,9 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.anomie.webservice.member.Member;
 
@@ -48,7 +49,7 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	
-	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date orderDate;
 	
 	@Builder
@@ -73,6 +74,11 @@ public class Order {
 		this.orderItems.add(orderItem);
 		orderItem.setOrder(this);
 	}
+	
+	 @PrePersist
+	  protected void onCreate() {
+		 orderDate = new Date();
+	  }
 
 	@Override
 	public int hashCode() {
