@@ -3,7 +3,6 @@ package com.anomie.webservice.order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -12,25 +11,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anomie.webservice.category.Category;
 import com.anomie.webservice.commons.OrderDTO;
-import com.anomie.webservice.commons.OrderItemDTO;
+import com.anomie.webservice.commons.OrderSearchVO;
 import com.anomie.webservice.item.Album;
 import com.anomie.webservice.item.Book;
 import com.anomie.webservice.item.Item;
 import com.anomie.webservice.item.ItemRepository;
 import com.anomie.webservice.member.Address;
 import com.anomie.webservice.member.Member;
+import com.querydsl.core.types.Predicate;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-public class TestOrderEntity {
+public class TestOrderService {
 
 	@Autowired
 	private OrderService orderService;
@@ -66,8 +69,7 @@ public class TestOrderEntity {
 				.build();
 		bookItem1.addCategory(bookChild1);
 
-		orderItem = OrderItem.builder().count(3).orderPrice(1000).build();
-		orderItem.addItem(bookItem1);
+		orderItem = OrderItem.builder().count(3).orderPrice(1000).item(bookItem1).build();
 		order.addOrderItem(orderItem);
 
 		albumItem1 = Album.builder().artist("기리보이").name("flex").price(10000).stockQuantity(10000).build();
@@ -75,8 +77,7 @@ public class TestOrderEntity {
 		albumChild1 = Category.builder().name("한국힙합").parent(albumParent).build();
 		albumItem1.addCategory(albumChild1);
 
-		OrderItem orderItem2 = OrderItem.builder().count(10).orderPrice(1000).build();
-		orderItem2.addItem(albumItem1);
+		OrderItem orderItem2 = OrderItem.builder().count(10).orderPrice(1000).item(albumItem1).build();
 		order.addOrderItem(orderItem2);
 
 		orderService.save(order);
@@ -118,6 +119,19 @@ public class TestOrderEntity {
 		for (OrderDTO orderDTO : orderDtoLs) {
 			assertEquals(order.getId(), orderDTO.getOrderId());
 		}
+	}
+	
+	@Test
+	public void testfindByMemberNameAndOrderStatus() {
+		OrderSearchVO searchVO = new OrderSearchVO();
+		searchVO.setMemberName("민우");
+		searchVO.setOrderStatus(OrderStatus.CANCEL);
+		Predicate predicate = OrderPredicate.orderSearch(searchVO);
+		Pageable pagable = new PageRequest(0, 2);
+		order.orderCancle();
+		Page<Order> orders = orderRepository.findAll(predicate, pagable);
+		assertEquals(member.getName(), orders.getContent().get(0).getMember().getName());
+		assertEquals(order.getStatus(), orders.getContent().get(0).getStatus());
 	}
 
 	@After
